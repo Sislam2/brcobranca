@@ -181,16 +181,18 @@ module Brcobranca
       # @raise [Brcobranca::BoletoInvalido] Caso as informações fornecidas não sejam suficientes ou sejam inválidas.
       # @return [String] código de barras formado por 44 caracteres numéricos.
       def codigo_barras
-        raise Brcobranca::BoletoInvalido.new(self) unless self.valid?
-        codigo = codigo_barras_primeira_parte #18 digitos
-        codigo << codigo_barras_segunda_parte #25 digitos
-        if codigo =~ /^(\d{4})(\d{39})$/
-          codigo_dv = codigo.modulo11_2to9
-          codigo = "#{$1}#{codigo_dv}#{$2}"
-          codigo
-        else
-          raise Brcobranca::BoletoInvalido.new(self)
-        end
+        raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
+        
+        #raise Brcobranca::BoletoInvalido.new(self) unless self.valid?
+        #codigo = codigo_barras_primeira_parte #18 digitos
+        #codigo << codigo_barras_segunda_parte #25 digitos
+        #if codigo =~ /^(\d{4})(\d{39})$/
+        #  codigo_dv = codigo.modulo11_2to9
+        #  codigo = "#{$1}#{codigo_dv}#{$2}"
+        #  codigo
+        #else
+        #  raise Brcobranca::BoletoInvalido.new(self)
+        #end
       end
 
       # Monta a segunda parte do código de barras, que é específico para cada banco.
@@ -203,7 +205,8 @@ module Brcobranca
       # Monta a primeira parte do código de barras, que é a mesma para todos bancos.
       # @return [String] 18 caracteres numéricos.
       def codigo_barras_primeira_parte
-        "#{self.banco}#{self.moeda}#{self.fator_vencimento}#{valor_documento_formatado}"
+        raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
+        #"#{self.banco}#{self.moeda}#{self.fator_vencimento}#{valor_documento_formatado}"
       end
 
       # Valor total do documento
@@ -211,6 +214,8 @@ module Brcobranca
       def valor_documento_formatado
         self.valor_documento.limpa_valor_moeda.to_s.rjust(10,'0')
       end
+
+    private
 
       # Nome da classe do boleto
       # @return [String]
