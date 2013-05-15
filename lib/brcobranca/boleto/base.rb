@@ -200,8 +200,6 @@ module Brcobranca
         raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
       end
 
-      private
-
       # Monta a primeira parte do código de barras, que é a mesma para todos bancos.
       # @return [String] 18 caracteres numéricos.
       def codigo_barras_primeira_parte
