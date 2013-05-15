@@ -17,8 +17,6 @@ module Brcobranca
       attr_accessor :convenio
       # <b>REQUERIDO</b>: Tipo de moeda utilizada (Real(R$) e igual a 9)
       attr_accessor :moeda
-      # <b>REQUERIDO</b>: Carteira utilizada
-      attr_accessor :carteira
       # <b>OPCIONAL</b>: Variacao da carteira(opcional para a maioria dos bancos)
       attr_accessor :variacao
       # <b>OPCIONAL</b>: Data de processamento do boleto, geralmente igual a data_documento
@@ -29,10 +27,6 @@ module Brcobranca
       attr_accessor :quantidade
       # <b>REQUERIDO</b>: Valor do boleto
       attr_accessor :valor
-      # <b>REQUERIDO</b>: Número da agencia sem <b>Digito Verificador</b>
-      attr_accessor :agencia
-      # <b>REQUERIDO</b>: Número da conta corrente sem <b>Digito Verificador</b>
-      attr_accessor :conta_corrente
       # <b>REQUERIDO</b>: Nome do proprietario da conta corrente
       attr_accessor :cedente
       # <b>REQUERIDO</b>: Documento do proprietario da conta corrente (CPF ou CNPJ)
@@ -73,14 +67,13 @@ module Brcobranca
       attr_accessor :sacado_documento
 
       # Validações
-      validates_presence_of :agencia, :conta_corrente, :moeda, :especie_documento, :especie, :aceite, :numero_documento, :message => "não pode estar em branco."
-      validates_numericality_of :convenio, :agencia, :conta_corrente, :numero_documento, :message => "não é um número.", :allow_nil => true
+      validates_presence_of :moeda, :especie_documento, :especie, :aceite, :numero_documento, :message => "não pode estar em branco."
+      validates_numericality_of :convenio, :numero_documento, :message => "não é um número.", :allow_nil => true
 
       # Nova instancia da classe Base
       # @param [Hash] campos
       def initialize(campos={})
-        padrao = {
-          :moeda => "9", :data_documento => Date.today, :dias_vencimento => 1, :quantidade => 1,
+        padrao = {:data_documento => Date.today, :dias_vencimento => 1, :quantidade => 1,
           :especie_documento => "DM", :especie => "R$", :aceite => "S", :valor => 0.0,
           :local_pagamento => "QUALQUER BANCO ATÉ O VENCIMENTO"
         }
@@ -97,46 +90,6 @@ module Brcobranca
       # @return [Path] Caminho para o arquivo de logotipo do banco.
       def logotipo
         File.join(File.dirname(__FILE__),'..','arquivos','logos',"#{class_name}.jpg")
-      end
-
-      # Dígito verificador do banco
-      # @return [Integer] 1 caracteres numéricos.
-      def banco_dv
-        self.banco.modulo11_9to2
-      end
-
-      # Código da agencia
-      # @return [String] 4 caracteres numéricos.
-      def agencia=(valor)
-        @agencia = valor.to_s.rjust(4,'0') if valor
-      end
-
-      # Dígito verificador da agência
-      # @return [Integer] 1 caracteres numéricos.
-      def agencia_dv
-        self.agencia.modulo11_9to2
-      end
-
-      # Dígito verificador da conta corrente
-      # @return [Integer] 1 caracteres numéricos.
-      def conta_corrente_dv
-        self.conta_corrente.modulo11_9to2
-      end
-
-      # Dígito verificador do nosso número
-      # @return [Integer] 1 caracteres numéricos.
-      def nosso_numero_dv
-        self.numero_documento.modulo11_9to2
-      end
-
-      # @abstract Deverá ser sobreescrito para cada banco.
-      def nosso_numero_boleto
-        raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
-      end
-
-      # @abstract Deverá ser sobreescrito para cada banco.
-      def agencia_conta_boleto
-        raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
       end
 
       # Valor total do documento: <b>quantidate * valor</b>
@@ -161,12 +114,6 @@ module Brcobranca
         self.data_vencimento.fator_vencimento
       end
 
-      # Número da conta corrente
-      # @return [String] 7 caracteres numéricos.
-      def conta_corrente=(valor)
-        @conta_corrente = valor.to_s.rjust(7,'0') if valor
-      end
-
       # Codigo de barras do boleto
       #
       # O codigo de barra para cobrança contém 44 posições dispostas da seguinte forma:<br/>
@@ -184,10 +131,9 @@ module Brcobranca
         raise Brcobranca::BoletoInvalido.new(self) unless self.valid?
         codigo = codigo_barras_primeira_parte #18 digitos
         codigo << codigo_barras_segunda_parte #25 digitos
-        if codigo =~ /^(\d{4})(\d{39})$/
-          codigo_dv = codigo.modulo11_2to9
-          codigo = "#{$1}#{codigo_dv}#{$2}"
-          codigo
+        if codigo =~ /^(\d{3})(\d{40})$/
+          codigo_dv = codigo.modulo10
+          "#{codigo_barras_primeira_parte}#{digito_verificador}#{codigo_barras_segunda_parte}"
         else
           raise Brcobranca::BoletoInvalido.new(self)
         end
@@ -200,12 +146,15 @@ module Brcobranca
         raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
       end
 
-      private
-
-      # Monta a primeira parte do código de barras, que é a mesma para todos bancos.
-      # @return [String] 18 caracteres numéricos.
+      # Monta a primeira parte do código de barras.
+      # Codigo padrão sendo
+      # Posição |Tamanho |Conteúdo<br/>
+      # 01 a 01 | 1  | Identificação do Produto Constante “8” para identificar arrecadação<br/>
+      # 02 a 02 | 1  | Identificação do Segmento "1" Prefeituras;<br/>
+      # 03 a 03 | 1  | Identificador de Valor Efetivo ou Referência "6" utiliza modulo de conversão 10<br/>
+      # @return [String] 3 caracteres numéricos.
       def codigo_barras_primeira_parte
-        "#{self.banco}#{self.moeda}#{self.fator_vencimento}#{valor_documento_formatado}"
+        "816"
       end
 
       # Valor total do documento

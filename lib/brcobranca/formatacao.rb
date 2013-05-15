@@ -79,20 +79,15 @@ module Brcobranca
     # @example
     #  "00192376900000135000000001238798777770016818".linha_digitavel #=> "00190.00009 01238.798779 77700.168188 2 37690000013500"
     def linha_digitavel
-      if self =~ /^(\d{4})(\d{1})(\d{14})(\d{5})(\d{10})(\d{10})$/
-        linha = $1
-        linha << $4
-        linha << linha.modulo10.to_s
-        linha << $5
-        linha << $5.modulo10.to_s
-        linha << $6
-        linha << $6.modulo10.to_s
-        linha << $2
-        linha << $3
-        linha.gsub(/^(.{5})(.{5})(.{5})(.{6})(.{5})(.{6})(.{1})(.{14})$/,'\1.\2 \3.\4 \5.\6 \7 \8')
-      else
-        raise ArgumentError, "#{self} Precisa conter 44 caracteres numéricos."
-      end
+      codigo_digitavel = self.scan(/.........../)
+      linha = codigo_digitavel[0]
+      linha << codigo_digitavel[0].modulo10.to_s
+      linha << codigo_digitavel[1]
+      linha << codigo_digitavel[1].modulo10.to_s
+      linha << codigo_digitavel[2]
+      linha << codigo_digitavel[2].modulo10.to_s
+      linha << codigo_digitavel[3]
+      linha << codigo_digitavel[3].modulo10.to_s
     end
   end
 end
