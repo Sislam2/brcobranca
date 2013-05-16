@@ -135,7 +135,7 @@ module Brcobranca
           codigo_dv = codigo.modulo10
           "#{$1}#{digito_verificador}#{$2}"
         else
-	  raise "passa aqui invalido"
+	  raise "#{codigo}"
           raise Brcobranca::BoletoInvalido.new(self)
         end
       end
