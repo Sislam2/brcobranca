@@ -81,31 +81,19 @@ module Brcobranca
         quantidade ? @numero_documento.to_s.rjust((17-quantidade),'0') : @numero_documento
       end
 
+      # Codigo de barras do boleto
+      #
+      # O codigo de barra contém 44 posições dispostas:
+      #def codigo_barras_sem_digitos_verrificadores
+      #  "#{codigo_barras_primeira_parte}#{digito_verificador}#{codigo_barras_segunda_parte}"
+      #end
+      
       # Segunda parte do código de barras.
       # @return [String] 40 caracteres numéricos.
       def codigo_barras_segunda_parte
         "#{valor_documento_formatado}#{self.convenio}#{(DataTime.now + self.data_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
       end
-     
-      # Codigo de barras do boleto
-      #
-      # O codigo de barra contém 44 posições dispostas:
-      def codigo_barras_sem_digitos_verrificadores
-        "#{codigo_barras_primeira_parte}#{digito_verificador}#{codigo_barras_segunda_parte}"
-      end
       
-      
-      #Codigo de barras completo
-      #
-      #adicona para cada grupo de 11 digitos do codigo de barras o seu digito verificador no modulo 10
-      def codigo_barras
-        parte_codigo_11_digito = codigo_barras_sem_digitos_verrificadores.scan(/.........../)
-        parte_codigo_11_digito.each do |add_dv|
-          add_dv.concat(add_dv.modulo10)
-        end
-        parte_codigo_11_digito
-      end
-
     end
   end
 end
