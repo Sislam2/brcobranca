@@ -5,7 +5,7 @@ module Brcobranca
   module CalculoData
     #Calcula data adicionando os dias para vencimento e deixand no fomarto YYYYMMDD
     def fator_vencimento
-      Integer(DateTime.parse(`date`) + self.days).to_date.strftime("%Y%m%d")
+      Integer(DateTime.parse(`date`)).to_date.strftime("%Y%m%d")
     end
     
     # Mostra a data em formato <b>dia/mês/ano</b>
