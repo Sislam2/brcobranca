@@ -6,9 +6,9 @@ module Brcobranca
       #validates_length_of :agencia, :maximum => 4, :message => "deve ser menor ou igual a 4 dígitos."
       #validates_length_of :conta_corrente, :maximum => 8, :message => "deve ser menor ou igual a 8 dígitos."
       #validates_length_of :carteira, :maximum => 2, :message => "deve ser menor ou igual a 2 dígitos."
-      validates_length_of :convenio, :in => 4, :message => "deve ser igual a 4 digitos."
+      #validates_length_of :convenio, :in => 4, :message => "deve ser igual a 4 digitos."
     
-      validates_length_of :numero_documento, :maximum => 17, :message => "deve conter ao menos um digito."
+      #validates_length_of :numero_documento, :maximum => 17, :message => "deve conter ao menos um digito."
 
       # Nova instancia do BancoBrasil
       # @param (see Brcobranca::Boleto::Base#initialize)
