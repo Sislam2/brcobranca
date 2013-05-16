@@ -131,11 +131,11 @@ module Brcobranca
         raise Brcobranca::BoletoInvalido.new(self) unless self.valid?
         codigo = codigo_barras_primeira_parte #18 digitos
         codigo << codigo_barras_segunda_parte #25 digitos
-	raise "boleto passa aqui"
         if codigo =~ /^(\d{3})(\d{40})$/
           codigo_dv = codigo.modulo10
           "#{$1}#{digito_verificador}#{$2}"
         else
+	  raise "passa aqui invalido"
           raise Brcobranca::BoletoInvalido.new(self)
         end
       end
