@@ -91,7 +91,8 @@ module Brcobranca
       #
       # @abstract Deverá ser sobreescrito para cada banco.
       def codigo_barras_segunda_parte
-        "#{valor_documento_formatado}#{self.convenio}#{(DateTime.parse('date') + self.dias_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
+	"#{valor_documento_formatado}#{self.convenio}20130517#{self.numero_documento}"
+        #"#{valor_documento_formatado}#{self.convenio}#{(DateTime.parse('date') + self.dias_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
       end
       
     end
