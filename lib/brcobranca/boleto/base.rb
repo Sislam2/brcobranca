@@ -163,7 +163,7 @@ module Brcobranca
       # Valor total do documento
       # @return [String] 10 caracteres numéricos.
       def valor_documento_formatado
-        self.valor_documento.limpa_valor_moeda.to_s.rjust(10,'0')
+        self.valor_documento.limpa_valor_moeda.to_s.rjust(11,'0')
       end
 
       # Nome da classe do boleto
