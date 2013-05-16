@@ -143,7 +143,7 @@ module Brcobranca
       #
       # @abstract Deverá ser sobreescrito para cada banco.
       def codigo_barras_segunda_parte
-        raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando")
+        raise Brcobranca::NaoImplementado.new("Sobreescreva este método na classe referente ao banco que você esta criando, teste jeff")
       end
 
       # Monta a primeira parte do código de barras.

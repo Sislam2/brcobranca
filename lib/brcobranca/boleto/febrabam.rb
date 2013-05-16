@@ -8,7 +8,7 @@ module Brcobranca
       #validates_length_of :carteira, :maximum => 2, :message => "deve ser menor ou igual a 2 dígitos."
       validates_length_of :convenio, :in => 4, :message => "deve ser igual a 4 digitos."
     
-      validates_length_of :numero_documento, :maximum => 17, :message => "deve conter ao menos um digito."
+      validates_length_of :numero_documento, :in => 1..17, :message => "deve conter ao menos um digito."
 
       # Nova instancia do BancoBrasil
       # @param (see Brcobranca::Boleto::Base#initialize)
@@ -86,7 +86,26 @@ module Brcobranca
       def codigo_barras_segunda_parte
         "#{valor_documento_formatado}#{self.convenio}#{(DataTime.now + self.data_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
       end
+     
+      # Codigo de barras do boleto
+      #
+      # O codigo de barra contém 44 posições dispostas:
+      def codigo_barras_sem_digitos_verrificadores
+        "#{codigo_barras_primeira_parte}#{digito_verificador}#{codigo_barras_segunda_parte}"
+      end
       
-     end
+      
+      #Codigo de barras completo
+      #
+      #adicona para cada grupo de 11 digitos do codigo de barras o seu digito verificador no modulo 10
+      def codigo_barras
+        parte_codigo_11_digito = codigo_barras_sem_digitos_verrificadores.scan(/.........../)
+        parte_codigo_11_digito.each do |add_dv|
+          add_dv.concat(add_dv.modulo10)
+        end
+        parte_codigo_11_digito
+      end
+
+    end
   end
 end
