@@ -91,6 +91,8 @@ module Brcobranca
       # Segunda parte do código de barras.
       # @return [String] 40 caracteres numéricos.
       def codigo_barras_segunda_parte
+	raise "teste jeff"
+	
         "#{valor_documento_formatado}#{self.convenio}#{(DataTime.now + self.data_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
       end
       
