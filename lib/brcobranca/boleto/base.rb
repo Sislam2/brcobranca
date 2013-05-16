@@ -111,7 +111,7 @@ module Brcobranca
       # Fator de vencimento calculado com base na data de vencimento do boleto.
       # @return [String] 4 caracteres numéricos.
       def fator_vencimento
-        self.data_vencimento.fator_vencimento
+        #self.data_vencimento.fator_vencimento
       end
 
       # Codigo de barras do boleto
