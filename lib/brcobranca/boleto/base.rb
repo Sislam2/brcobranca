@@ -133,7 +133,7 @@ module Brcobranca
         codigo << codigo_barras_segunda_parte #25 digitos
         if codigo =~ /^(\d{3})(\d{40})$/
           codigo_dv = codigo.modulo10
-          "#{codigo_barras_primeira_parte}#{digito_verificador}#{codigo_barras_segunda_parte}"
+          "#{$1}#{digito_verificador}#{$2}"
         else
           raise Brcobranca::BoletoInvalido.new(self)
         end
