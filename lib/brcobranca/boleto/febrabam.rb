@@ -78,7 +78,7 @@ module Brcobranca
       #   @return [String] 17 caracteres numéricos.
       def numero_documento
         quantidade = @numero_documento.to_s.size
-        quantidade ? @numero_documento.to_s.rjust(18,'0') : @numero_documento
+        quantidade ? @numero_documento.to_s.rjust((18-quantidade),'0') : @numero_documento
       end
 
       # Codigo de barras do boleto
