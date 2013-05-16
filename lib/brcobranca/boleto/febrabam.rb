@@ -87,12 +87,10 @@ module Brcobranca
       #def codigo_barras_sem_digitos_verrificadores
       #  "#{codigo_barras_primeira_parte}#{digito_verificador}#{codigo_barras_segunda_parte}"
       #end
-      
-      # Segunda parte do código de barras.
-      # @return [String] 40 caracteres numéricos.
+      # Monta a segunda parte do código de barras, que é específico para cada banco.
+      #
+      # @abstract Deverá ser sobreescrito para cada banco.
       def codigo_barras_segunda_parte
-	raise "teste jeff"
-	
         "#{valor_documento_formatado}#{self.convenio}#{(DataTime.now + self.data_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
       end
       

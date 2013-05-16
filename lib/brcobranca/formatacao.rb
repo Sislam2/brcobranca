@@ -80,14 +80,18 @@ module Brcobranca
     #  "00192376900000135000000001238798777770016818".linha_digitavel #=> "00190.00009 01238.798779 77700.168188 2 37690000013500"
     def linha_digitavel
       codigo_digitavel = self.scan(/.........../)
-      linha = codigo_digitavel[0]
-      linha << codigo_digitavel[0].modulo10.to_s
-      linha << codigo_digitavel[1]
-      linha << codigo_digitavel[1].modulo10.to_s
-      linha << codigo_digitavel[2]
-      linha << codigo_digitavel[2].modulo10.to_s
-      linha << codigo_digitavel[3]
-      linha << codigo_digitavel[3].modulo10.to_s
+      codigo_digitavel.each do |x|
+	x.concat(x.modulo10.to_s)
+      end
+      codigo_digitavel
+      #linha = codigo_digitavel[0]
+      #linha << codigo_digitavel[0].modulo10.to_s
+      #linha << codigo_digitavel[1]
+      #linha << codigo_digitavel[1].modulo10.to_s
+      #linha << codigo_digitavel[2]
+      #linha << codigo_digitavel[2].modulo10.to_s
+      #linha << codigo_digitavel[3]
+      #linha << codigo_digitavel[3].modulo10.to_s
     end
   end
 end
