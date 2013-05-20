@@ -105,18 +105,7 @@ module Brcobranca
         '%.2f' % (self.quantidade.to_f * self.valor.to_f)
       end
       
-      # Código da agencia
-      # @return [String] 4 caracteres numéricos.
-      def codigo_unico
-        self.codigo_unico
-      end
-      
-      # Código da agencia
-      # @return [String] 4 caracteres numéricos.
-      def codigo_receita
-        self.codigo_receita
-      end
-
+     
       # Data de vencimento baseado na <b>data_documento + dias_vencimento</b>
       #
       # @return [Date]
