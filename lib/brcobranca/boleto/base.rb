@@ -89,7 +89,7 @@ module Brcobranca
       # Logotipo do banco
       # @return [Path] Caminho para o arquivo de logotipo do banco.
       def logotipo
-	File.join("#{Rails.root.to_s}",'public','assets','config_prefeituras','1','thumb',"#{logo}")
+	File.join("#{Rails.root.to_s}",'public','assets','config_prefeituras','1','thumb',"#{self.logo}")
         #File.join(File.dirname(__FILE__),'..','arquivos','logos',"#{class_name}.jpg")
       end
 
