@@ -67,6 +67,10 @@ module Brcobranca
       attr_accessor :sacado_documento
       # <b>REQUERIDO</b>: logo do boleto customisavel
       attr_accessor :logo
+      # <b>REQUERIDO</b>: logo do boleto customisavel
+      attr_accessor :codigo_unico
+      # <b>REQUERIDO</b>: logo do boleto customisavel
+      attr_accessor :codigo_receita
       
       # Validações
       validates_presence_of :moeda, :especie_documento, :especie, :aceite, :numero_documento, :message => "não pode estar em branco."
@@ -99,6 +103,18 @@ module Brcobranca
       # @return [Float]
       def valor_documento
         '%.2f' % (self.quantidade.to_f * self.valor.to_f)
+      end
+      
+      # Código da agencia
+      # @return [String] 4 caracteres numéricos.
+      def codigo_unico
+        self.codigo_unico
+      end
+      
+      # Código da agencia
+      # @return [String] 4 caracteres numéricos.
+      def codigo_receita
+        self.codigo_receita
       end
 
       # Data de vencimento baseado na <b>data_documento + dias_vencimento</b>

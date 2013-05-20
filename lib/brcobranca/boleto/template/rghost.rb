@@ -142,7 +142,7 @@ module Brcobranca
           doc.moveto :x => '0.7 cm' , :y => '23 cm'
           doc.show boleto.cedente
           doc.moveto :x => '11 cm' , :y => '23 cm'
-          #doc.show boleto.agencia_conta_boleto
+          doc.show boleto.codigo_unico
           doc.moveto :x => '14.2 cm' , :y => '23 cm'
           doc.show boleto.especie
           doc.moveto :x => '15.7 cm' , :y => '23 cm'
@@ -154,7 +154,7 @@ module Brcobranca
           doc.moveto :x => '12 cm' , :y => '22.2 cm'
           doc.show boleto.data_vencimento.to_s_br
           doc.moveto :x => '16.5 cm' , :y => '23 cm'
-          #doc.show boleto.nosso_numero_boleto
+          doc.show boleto.codigo_receita
           doc.moveto :x => '16.5 cm' , :y => '22.2 cm'
           doc.show boleto.valor_documento.to_currency
           doc.moveto :x => '1.4 cm' , :y => '20.9 cm'
@@ -180,7 +180,7 @@ module Brcobranca
           doc.moveto :x => '0.7 cm' , :y => '15.2 cm'
           doc.show boleto.cedente
           doc.moveto :x => '16.5 cm' , :y => '15.2 cm'
-          #doc.show boleto.agencia_conta_boleto
+          doc.show boleto.codigo_unico
           doc.moveto :x => '0.7 cm' , :y => '14.4 cm'
           doc.show boleto.data_documento.to_s_br if boleto.data_documento
           doc.moveto :x => '4.2 cm' , :y => '14.4 cm'
@@ -192,7 +192,7 @@ module Brcobranca
           doc.moveto :x => '13 cm' , :y => '14.4 cm'
           doc.show boleto.data_processamento.to_s_br if boleto.data_processamento
           doc.moveto :x => '16.5 cm' , :y => '14.4 cm'
-          #doc.show boleto.nosso_numero_boleto
+          doc.show boleto.codigo_receita
           doc.moveto :x => '4.4 cm' , :y => '13.5 cm'
           #doc.show boleto.carteira
           doc.moveto :x => '6.4 cm' , :y => '13.5 cm'
