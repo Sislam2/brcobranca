@@ -65,7 +65,9 @@ module Brcobranca
       attr_accessor :sacado_endereco
       # <b>REQUERIDO</b>: Documento da pessoa que receberá o boleto
       attr_accessor :sacado_documento
-
+      # <b>REQUERIDO</b>: logo do boleto customisavel
+      attr_accessor :logo
+      
       # Validações
       validates_presence_of :moeda, :especie_documento, :especie, :aceite, :numero_documento, :message => "não pode estar em branco."
       validates_numericality_of :convenio, :numero_documento, :message => "não é um número.", :allow_nil => true
