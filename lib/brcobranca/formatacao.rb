@@ -83,7 +83,7 @@ module Brcobranca
       codigo_digitavel.each do |x|
 	x.concat(x.modulo10.to_s)
       end
-      codigo_digitavel = codigo_digitavel.to_s.gsub(/^(.{11})(.{11})(.{11})(.{11})$/,'\1 \2 \3 \4')
+      codigo_digitavel = codigo_digitavel.to_s.gsub(/^(.{12})(.{12})(.{12})(.{12})$/,'\1 \2 \3 \4')
     end
   end
 end
