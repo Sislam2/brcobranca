@@ -97,7 +97,7 @@ module Brcobranca
         def modelo_generico_multipage(boletos, options={})
           doc=Document.new :paper => :A4 # 210x297
 
-          template_path = File.join(File.dirname(__FILE__),'..','..','arquivos','templates','modelo_generico.eps')
+          template_path = File.join(File.dirname(__FILE__),'..','..','arquivos','templates','modelo_generico_teste.eps')
 
           raise "Não foi possível encontrar o template. Verifique o caminho" unless File.exist?(template_path)
 
@@ -133,16 +133,16 @@ module Brcobranca
         def modelo_generico_cabecalho(doc, boleto)
           #INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '23.85 cm', :zoom => 80)
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '23.85 cm', :zoom => 60)
           # Dados
           doc.moveto :x => '5.2 cm' , :y => '23.85 cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
+          #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
           doc.moveto :x => '7.5 cm' , :y => '23.85 cm'
           doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
           doc.moveto :x => '0.7 cm' , :y => '23 cm'
           doc.show boleto.cedente
           doc.moveto :x => '11 cm' , :y => '23 cm'
-          doc.show boleto.agencia_conta_boleto
+          doc.show boleto.codigo_unico
           doc.moveto :x => '14.2 cm' , :y => '23 cm'
           doc.show boleto.especie
           doc.moveto :x => '15.7 cm' , :y => '23 cm'
@@ -154,7 +154,7 @@ module Brcobranca
           doc.moveto :x => '12 cm' , :y => '22.2 cm'
           doc.show boleto.data_vencimento.to_s_br
           doc.moveto :x => '16.5 cm' , :y => '23 cm'
-          doc.show boleto.nosso_numero_boleto
+          doc.show boleto.codigo_receita
           doc.moveto :x => '16.5 cm' , :y => '22.2 cm'
           doc.show boleto.valor_documento.to_currency
           doc.moveto :x => '1.4 cm' , :y => '20.9 cm'
@@ -168,9 +168,9 @@ module Brcobranca
         def modelo_generico_rodape(doc, boleto)
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '16.8 cm', :zoom => 80)
+          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '16.8 cm', :zoom => 60)
           doc.moveto :x => '5.2 cm' , :y => '16.8 cm'
-          doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
+          #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
           doc.moveto :x => '7.5 cm' , :y => '16.8 cm'
           doc.show boleto.codigo_barras.linha_digitavel, :tag => :grande
           doc.moveto :x => '0.7 cm' , :y => '16 cm'
@@ -180,7 +180,7 @@ module Brcobranca
           doc.moveto :x => '0.7 cm' , :y => '15.2 cm'
           doc.show boleto.cedente
           doc.moveto :x => '16.5 cm' , :y => '15.2 cm'
-          doc.show boleto.agencia_conta_boleto
+          doc.show boleto.codigo_unico
           doc.moveto :x => '0.7 cm' , :y => '14.4 cm'
           doc.show boleto.data_documento.to_s_br if boleto.data_documento
           doc.moveto :x => '4.2 cm' , :y => '14.4 cm'
@@ -192,9 +192,9 @@ module Brcobranca
           doc.moveto :x => '13 cm' , :y => '14.4 cm'
           doc.show boleto.data_processamento.to_s_br if boleto.data_processamento
           doc.moveto :x => '16.5 cm' , :y => '14.4 cm'
-          doc.show boleto.nosso_numero_boleto
+          doc.show boleto.codigo_receita
           doc.moveto :x => '4.4 cm' , :y => '13.5 cm'
-          doc.show boleto.carteira
+          #doc.show boleto.carteira
           doc.moveto :x => '6.4 cm' , :y => '13.5 cm'
           doc.show boleto.especie
           doc.moveto :x => '8 cm' , :y => '13.5 cm'

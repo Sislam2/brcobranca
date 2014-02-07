@@ -3,15 +3,11 @@
 module Brcobranca
   # Métodos auxiliares de cálculos envolvendo Datas.
   module CalculoData
-    # Calcula o número de dias corridos entre a <b>data base ("Fixada" em 07.10.1997)</b> e a <b>data de vencimento</b> desejada.
-    # @return [String] Contendo 4 dígitos
-    # @example
-    #  Date.parse(2000-07-04).fator_vencimento #=> 1001
+    #Calcula data adicionando os dias para vencimento e deixand no fomarto YYYYMMDD
     def fator_vencimento
-      data_base = Date.parse "1997-10-07"
-      Integer(self - data_base).to_s.rjust(4,'0')
+      Integer(DateTime.parse('date').to_date.strftime("%Y%m%d"))
     end
-
+    
     # Mostra a data em formato <b>dia/mês/ano</b>
     # @return [String]
     # @example
