@@ -138,7 +138,8 @@ module Brcobranca
       #   Nosso Número de 17 dígitos com Convenio de 6 dígitos e {#codigo_servico} true. (carteira 16 e 18)
       #   @return [String] 17 caracteres numéricos.
       def numero_documento
-        @inscricao.to_s.rjust(7,'0') + @tributo_tipo.to_s.rjust(2,'0') + @competencia.to_s.rjust(4,'0') + @numero_documento.to_s.rjust(4,'0')
+        #@inscricao.to_s.rjust(7,'0') + @tributo_tipo.to_s.rjust(2,'0') + @competencia.to_s.rjust(4,'0') + @numero_documento.to_s.rjust(4,'0')
+        @inscricao.to_s.rjust(7,'0') + @tributo_tipo.to_s.rjust(2,'0') + @numero_documento.to_s.rjust(8,'0')
       end
 
       # Codigo de barras do boleto
