@@ -7,13 +7,13 @@ module Brcobranca
     def fator_vencimento
       Integer(DateTime.parse('date').to_date.strftime("%Y%m%d"))
     end
-    
+
     # Mostra a data em formato <b>dia/mês/ano</b>
     # @return [String]
     # @example
     #  Date.today.to_s_br #=> 20/01/2010
     def to_s_br
-      self.strftime('%d/%m/%Y')
+      strftime('%d/%m/%Y')
     end
     # Calcula número de dias julianos.
     #
@@ -25,14 +25,14 @@ module Brcobranca
     # @example
     #  Date.parse(2009-02-11).to_juliano #=> "0429"
     def to_juliano
-      ultima_data = Date.parse("#{self.year - 1}-12-31")
-      ultimo_digito_ano = self.to_s[3..3]
+      ultima_data = Date.parse("#{year - 1}-12-31")
+      ultimo_digito_ano = to_s[3..3]
       dias = Integer(self - ultima_data)
-      (dias.to_s + ultimo_digito_ano).rjust(4,'0')
+      (dias.to_s + ultimo_digito_ano).rjust(4, '0')
     end
   end
 end
 
-[ Date ].each do |klass|
+[Date].each do |klass|
   klass.class_eval { include Brcobranca::CalculoData }
 end

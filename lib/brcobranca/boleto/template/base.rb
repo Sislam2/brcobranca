@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 module Brcobranca
   module Boleto
     module Template
@@ -5,7 +7,16 @@ module Brcobranca
         extend self
 
         def define_template(template)
-          (template == :rghost) ? Brcobranca::Boleto::Template::Rghost : Brcobranca::Boleto::Template::Rghost
+          case template
+          when :rghost
+            return [Brcobranca::Boleto::Template::Rghost]
+          when :rghost_carne
+            return [Brcobranca::Boleto::Template::RghostCarne]
+          when :both
+            return [Brcobranca::Boleto::Template::Rghost, Brcobranca::Boleto::Template::RghostCarne]
+          else
+            return [Brcobranca::Boleto::Template::Rghost]
+          end
         end
       end
     end

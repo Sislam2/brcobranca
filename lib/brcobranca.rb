@@ -1,31 +1,18 @@
 # -*- encoding: utf-8 -*-
-$:.push File.join(File.dirname(__FILE__))
+require 'active_model'
 require 'brcobranca/calculo'
 require 'brcobranca/limpeza'
 require 'brcobranca/formatacao'
+require 'brcobranca/formatacao_string'
 require 'brcobranca/calculo_data'
 require 'brcobranca/currency'
-
-begin
-  require 'date'
-rescue LoadError
-  require 'rubygems' unless ENV['NO_RUBYGEMS']
-  gem 'date'
-  require 'date'
-end
-
-begin
-  require 'active_model'
-rescue LoadError
-  require 'rubygems' unless ENV['NO_RUBYGEMS']
-  gem 'active_model', ">= 3.0.0"
-  require 'active_model'
-end
-
 
 module Brcobranca
   # Exception lançada quando algum tipo de boleto soicitado ainda não tiver sido implementado.
   class NaoImplementado < NotImplementedError
+  end
+
+  class ValorInvalido < StandardError
   end
 
   # Exception lançada quando os dados informados para o boleto estão inválidos.
@@ -34,10 +21,22 @@ module Brcobranca
   #   rescue Brcobranca::BoletoInvalido => invalido
   #   puts invalido.errors
   class BoletoInvalido < StandardError
-
     # Atribui o objeto boleto e pega seus erros de validação
     def initialize(boleto)
       errors = boleto.errors.full_messages.join(', ')
+      super(errors)
+    end
+  end
+
+  # Exception lançada quando os dados informados para o arquivo remessa estão inválidos.
+  #
+  # Você pode usar assim na sua aplicação:
+  #   rescue Brcobranca::RemessaInvalida => invalido
+  #   puts invalido.errors
+  class RemessaInvalida < StandardError
+    # Atribui o objeto boleto e pega seus erros de validação
+    def initialize(remessa)
+      errors = remessa.errors.full_messages.join(', ')
       super(errors)
     end
   end
@@ -68,9 +67,8 @@ module Brcobranca
     # @param  [Integer] (Padrão: 150)
     attr_accessor :resolucao
 
-    # Ajusta o Encoding externo (do arquivo) - Ruby 1.9
-    # Ex: Caso esteja dando UndefinedConversionError - from ASCII-8BIT to UTF-8
-    # configurar com a string 'ascii-8bit'
+    # Ajusta o encoding do texto do boleto enviado para o GhostScript
+    # O valor 'ascii-8bit' evita problemas com acentos e cedilha
     # @return [String]
     # @param  [String] (Padrão: nil)
     attr_accessor :external_encoding
@@ -80,6 +78,7 @@ module Brcobranca
       self.gerador = :rghost
       self.formato = :pdf
       self.resolucao = 150
+      self.external_encoding = 'ascii-8bit'
     end
   end
 
@@ -99,26 +98,59 @@ module Brcobranca
     autoload :BancoBrasil,   'brcobranca/boleto/banco_brasil'
     autoload :Itau,          'brcobranca/boleto/itau'
     autoload :Hsbc,          'brcobranca/boleto/hsbc'
-    autoload :Real,          'brcobranca/boleto/real'
     autoload :Bradesco,      'brcobranca/boleto/bradesco'
-    autoload :Unibanco,      'brcobranca/boleto/unibanco'
     autoload :Caixa,         'brcobranca/boleto/caixa'
+    autoload :Sicoob,        'brcobranca/boleto/sicoob'
     autoload :Sicredi,       'brcobranca/boleto/sicredi'
     autoload :Santander,     'brcobranca/boleto/santander'
-    autoload :Febrabam,     'brcobranca/boleto/febrabam'
+    autoload :Febrabam,      'brcobranca/boleto/febrabam'
+    autoload :Banestes,      'brcobranca/boleto/banestes'
 
     # Módulos para classes de template
     module Template
-      autoload :Base,   'brcobranca/boleto/template/base'
-      autoload :Rghost, 'brcobranca/boleto/template/rghost'
+      autoload :Base,        'brcobranca/boleto/template/base'
+      autoload :Rghost,      'brcobranca/boleto/template/rghost'
+      autoload :RghostCarne, 'brcobranca/boleto/template/rghost_carne'
     end
   end
 
   # Módulos para classes de retorno bancário
   module Retorno
-    autoload :Base,           'brcobranca/retorno/base'
-    autoload :RetornoCbr643,  'brcobranca/retorno/retorno_cbr643'
+    autoload :Base,            'brcobranca/retorno/base'
+    autoload :RetornoCbr643,   'brcobranca/retorno/retorno_cbr643'
     autoload :RetornoCnab240,  'brcobranca/retorno/retorno_cnab240'
+    autoload :RetornoCnab400,  'brcobranca/retorno/retorno_cnab400' # DEPRECATED
+
+    module Cnab400
+      autoload :Base, 'brcobranca/retorno/cnab400/base'
+      autoload :Bradesco, 'brcobranca/retorno/cnab400/bradesco'
+      autoload :Itau, 'brcobranca/retorno/cnab400/itau'
+    end
+  end
+
+  # Módulos para as classes que geram os arquivos remessa
+  module Remessa
+    autoload :Base,         'brcobranca/remessa/base'
+    autoload :Pagamento,    'brcobranca/remessa/pagamento'
+
+    module Cnab400
+      autoload :Base,      'brcobranca/remessa/cnab400/base'
+      autoload :Bradesco,  'brcobranca/remessa/cnab400/bradesco'
+      autoload :Itau,      'brcobranca/remessa/cnab400/itau'
+      autoload :Citibank,  'brcobranca/remessa/cnab400/citibank'
+      autoload :Santander,  'brcobranca/remessa/cnab400/santander'
+    end
+
+    module Cnab240
+      autoload :Base,         'brcobranca/remessa/cnab240/base'
+      autoload :Caixa,        'brcobranca/remessa/cnab240/caixa'
+      autoload :BancoBrasil,  'brcobranca/remessa/cnab240/banco_brasil'
+      autoload :Sicoob,       'brcobranca/remessa/cnab240/sicoob'
+    end
+  end
+
+  # Módulos para classes de utilidades
+  module Util
+    autoload :Empresa, 'brcobranca/util/empresa'
   end
 end
-
