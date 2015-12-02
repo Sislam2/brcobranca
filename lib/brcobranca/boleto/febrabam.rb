@@ -7,6 +7,8 @@ module Brcobranca
       attr_accessor :codigo_unico
       # <b>REQUERIDO</b>: Código da receita febrabam
       attr_accessor :codigo_receita
+      # <b>OPCIONAL</b>: Dias de vencimentro, usado para fazer o calculo da data de vencimento baseado na <b>data_documento + dias_vencimento
+      attr_accessor :dias_vencimento
 
       validates_presence_of :agencia, :conta_corrente
       validates_numericality_of :agencia, :conta_corrente
