@@ -23,6 +23,8 @@ module Brcobranca
       attr_accessor :variacao
       # <b>OPCIONAL</b>: Data de processamento do boleto, geralmente igual a data_documento
       attr_accessor :data_processamento
+      # <b>OPCIONAL</b>: Dias de vencimentro, usado para fazer o calculo da data de vencimento baseado na <b>data_documento + dias_vencimento
+      attr_accessor :dias_vencimento
       # <b>REQUERIDO</b>: Quantidade de boleto(padrão = 1)
       attr_accessor :quantidade
       # <b>REQUERIDO</b>: Valor do boleto
