@@ -190,7 +190,7 @@ module Brcobranca
         def modelo_arrecadacao_taxa_cabecalho(doc, boleto)
           # INICIO Primeira parte do BOLETO
           # LOGOTIPO do BANCO
-          doc.image boleto.logotipo, x: '0.36 cm', y: '23.87 cm'
+          doc.image boleto.logotipo, x: '0.36 cm', y: '23.87 cm', zoom: 60
           # Dados
           doc.moveto x: '5.2 cm', y: '23.9 cm'
           doc.show "#{boleto.banco}-#{boleto.banco_dv}", tag: :grande
@@ -224,7 +224,8 @@ module Brcobranca
         def modelo_arrecadacao_taxa_rodape(doc, boleto)
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
-          doc.image(boleto.logotipo, :x => '0.5 cm', :y => '16.8 cm', :zoom => 60)
+          # doc.image(boleto.logotipo, :x => '0.5 cm', :y => '16.8 cm')
+          # doc.image boleto.logotipo, x: '0.36 cm', y: '16.83 cm', zoom: 60
           doc.moveto :x => '5.2 cm' , :y => '16.8 cm'
           #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
           doc.moveto :x => '7.5 cm' , :y => '16.8 cm'
@@ -250,7 +251,7 @@ module Brcobranca
           doc.moveto :x => '16.5 cm' , :y => '14.4 cm'
           doc.show boleto.codigo_receita
           doc.moveto :x => '4.4 cm' , :y => '13.5 cm'
-          #doc.show boleto.carteira
+          doc.show boleto.carteira
           doc.moveto :x => '6.4 cm' , :y => '13.5 cm'
           doc.show boleto.especie
           doc.moveto :x => '8 cm' , :y => '13.5 cm'
