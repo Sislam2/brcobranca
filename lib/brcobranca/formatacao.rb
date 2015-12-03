@@ -78,6 +78,7 @@ module Brcobranca
     # @raise  [ArgumentError] Caso não seja um número de 44 dígitos.
     # @example
     #  "00192376900000135000000001238798777770016818".linha_digitavel #=> "00190.00009 01238.798779 77700.168188 2 37690000013500"
+
     def linha_digitavel
       if self =~ /^(\d{4})(\d{1})(\d{14})(\d{5})(\d{10})(\d{10})$/
         linha = Regexp.last_match[1]
@@ -94,9 +95,23 @@ module Brcobranca
         fail ArgumentError, "#{self} Precisa conter 44 caracteres numéricos."
       end
     end
+
+    # @return [String]
+    # @raise  [ArgumentError] Caso não seja um número de 44 dígitos.
+    # @example
+    # "81790000000484312342015120812331111200022540".linha_digitavel_febrabam => "817900000008 484312342013 512081233110 112000225402"
+
+    def linha_digitavel_febrabam
+      codigo_digitavel = self.scan(/.........../)
+      codigo_digitavel.each do |x|
+        x.concat(x.modulo10.to_s)
+      end
+      codigo_digitavel = codigo_digitavel.join("").gsub(/^(.{12})(.{12})(.{12})(.{12})$/,'\1 \2 \3 \4')
+    end
   end
 end
 
 [String, Numeric].each do |klass|
   klass.class_eval { include Brcobranca::Formatacao }
 end
+
