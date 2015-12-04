@@ -225,8 +225,9 @@ module Brcobranca
           #INICIO Segunda parte do BOLETO BB
           # LOGOTIPO do BANCO
           # doc.image(boleto.logotipo, :x => '0.5 cm', :y => '16.8 cm')
-          # doc.image boleto.logotipo, x: '0.36 cm', y: '16.83 cm', zoom: 60
+          #
           doc.moveto :x => '5.2 cm' , :y => '16.8 cm'
+          doc.image boleto.logotipo, x: '0.36 cm', y: '16.83 cm', zoom: 60
           #doc.show "#{boleto.banco}-#{boleto.banco_dv}", :tag => :grande
           doc.moveto :x => '7.5 cm' , :y => '16.8 cm'
           doc.show boleto.codigo_barras.linha_digitavel_febrabam, :tag => :grande
