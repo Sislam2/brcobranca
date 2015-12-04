@@ -175,7 +175,7 @@ module Brcobranca
           doc.moveto x: '7 cm', y: '22.2 cm'
           doc.show "#{boleto.documento_cedente.formata_documento}"
           doc.moveto x: '12 cm', y: '22.2 cm'
-          doc.show boleto.data_vencimento.to_s_br
+          doc.show "10/102015"#boleto.data_vencimento.to_s_br
           doc.moveto x: '16.5 cm', y: '23 cm'
           doc.show boleto.nosso_numero_boleto
           doc.moveto x: '16.5 cm', y: '22.2 cm'

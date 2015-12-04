@@ -10,19 +10,10 @@ module Brcobranca
       attr_accessor :codigo_receita
       # <b>OPCIONAL</b>: Número sequencial utilizado para identificar o inscrição
       attr_accessor :inscricao
-      # <b>OPCIONAL</b>: Dias de vencimentro, usado para fazer o calculo da data de vencimento baseado na <b>data_documento + dias_vencimento
-      attr_accessor :dias_vencimento
       # <b>OPCIONAL</b>: Número sequencial utilizado para identificar o tributo
       attr_accessor :tributo_tipo
       # <b>OPCIONAL</b>: Número sequencial utilizado para identificar o conpetencia
       attr_accessor :competencia
-
-      #def initialize(campos={})
-      #  padrao = {:data_documento => Date.today, :dias_vencimento => 1, :quantidade => 1,
-      #    :especie_documento => "DM", :especie => "R$", :aceite => "S", :valor => 0.0,
-      #    :local_pagamento => "QUALQUER BANCO ATÉ O VENCIMENTO"
-      #  }
-      #end
 
       # Codigo do banco emissor (3 dígitos sempre)
       #
@@ -89,60 +80,6 @@ module Brcobranca
         ""
       end
 
-      # instrucao1
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao1=(valor)
-
-        @instrucao1 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-
-      # instrucao2
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao2=(valor)
-        @instrucao2 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-
-      # instrucao3
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao3=(valor)
-        @instrucao3 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-      # instrucao4
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao4=(valor)
-        @instrucao4 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-      # instrucao5
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao5=(valor)
-        @instrucao5 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-      # instrucao6
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao6=(valor)
-        @instrucao6 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-
-      # instrucao7
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def instrucao7=(valor)
-        @instrucao7 = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-
-       # sacado_endereco
-      #
-      # @return [String] 110 caracteres instrucao1.
-      def sacado_endereco=(valor)
-        @sacado_endereco = valor.to_s.match(/^.{0,110}\b/)[0] if valor
-      end
-
       #CONTEÚDO DO CÓDIGO DE BARRAS NOS DOCUMENTOS
       #Disponível em http://www.febraban.org.br/7Rof7SWg6qmyvwJcFwF7I0aSDf9jyV/sitefebraban/Codbar4-v28052004.pdf acessado em: 03/12/2015
       # Posição | Size | Conteúdo
@@ -206,12 +143,6 @@ module Brcobranca
         "#{valor_documento_formatado}#{identificação_da_empresa_orgao}#{campo_livre}"
       end
 
-      ## def codigo_barras_segunda_parte
-      ##  #"#{valor_documento_formatado}#{self.convenio}20130517#{self.numero_documento}"
-      ##  "#{valor_documento_formatado}#{self.convenio}#{(self.data_documento.to_date + self.dias_vencimento.days).to_date.strftime("%Y%m%d")}#{self.numero_documento}"
-      ##end
-
-
       def identificação_da_empresa_orgao
         "#{self.convenio}"
       end
@@ -221,7 +152,7 @@ module Brcobranca
       end
 
       def dt_vencimento_boleto
-        "#{(self.data_documento.to_date + self.dias_vencimento.days).to_date.strftime("%Y%m%d")}"
+        "#{self.data_vencimento.to_date.strftime("%Y%m%d")}"
       end
 
       def valor_documento_formatado
