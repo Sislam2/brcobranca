@@ -40,5 +40,21 @@ RSpec.describe Brcobranca::Boleto::Febrabam do
     boleto_novo = described_class.new
     expect { boleto_novo.codigo_barras }.to raise_error(Brcobranca::BoletoInvalido)
     expect(boleto_novo.errors.count).to eql(1)
+  end  
+
+  it 'Gerar boleto nos formatos válidos com método to_' do
+    Brcobranca.configuration.gerador = :rghost_carne
+    boleto_novo = described_class.new(@valid_attributes)
+
+    %w(pdf).each do |format|
+      file_body = boleto_novo.send("to_#{format}".to_sym)
+      tmp_file = Tempfile.new('foobar.' << format)
+      tmp_file.puts file_body
+      tmp_file.close
+      expect(File.exist?(tmp_file.path)).to be_truthy
+      expect(File.stat(tmp_file.path).zero?).to be_falsey
+      expect(File.delete(tmp_file.path)).to eql(1)
+      expect(File.exist?(tmp_file.path)).to be_falsey
+    end
   end
 end

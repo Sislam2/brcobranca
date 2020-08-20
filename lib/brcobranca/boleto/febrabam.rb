@@ -101,7 +101,7 @@ module Brcobranca
       def codigo_barras
         fail Brcobranca::BoletoInvalido.new(self) unless self.valid?
         codigo = codigo_barras_primeira_parte #3 digitos
-        codigo << codigo_barras_segunda_parte #39 digitos
+        codigo += codigo_barras_segunda_parte #39 digitos
         if codigo =~ /^(\d{3})(\d{40})$/
           codigo_dv = digito_verificador(codigo)
           "#{$1}#{codigo_dv}#{$2}"
@@ -117,7 +117,7 @@ module Brcobranca
       # 02 – 02 |   1  | Identificação do Segmento: Constante "1" - Prefeituras;
       # 03 – 03 |   1  | Identificador de Valor Efetivo ou Referência: Constante "6" - Valor a ser cobrado 'efetivamente' em reais com dígito verificador calculado pelo módulo 10 na quarta posição do Código de Barras e valor com 11 posições (versão 2 e posteriores) sem qualquer alteração;
       def codigo_barras_primeira_parte
-        produto_segmento_valor_efetivo        
+        produto_segmento_valor_efetivo
       end
 
       # Codigo da segunta parte do boleto
