@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
-require 'coveralls'
-Coveralls.wear!
-
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+# require 'coveralls'
+# Coveralls.wear!
+# require 'codeclimate-test-reporter'
+# CodeClimate::TestReporter.start
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))

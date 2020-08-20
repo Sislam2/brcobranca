@@ -2,6 +2,10 @@ module Brcobranca
   module Boleto
     class Febrabam < Base # Banco Itaú
 
+      # Validações
+      validates_presence_of :produto_segmento_valor_efetivo, message: 'não pode estar em branco.'
+      validates_numericality_of :produto_segmento_valor_efetivo, message: 'não é um número.', allow_nil: true
+
       # <b>REQUERIDO</b>: logo do boleto customisavel
       attr_accessor :logo
       # <b>REQUERIDO</b>: Código único para geração do boleto
@@ -14,6 +18,7 @@ module Brcobranca
       attr_accessor :tributo_tipo
       # <b>OPCIONAL</b>: Número sequencial utilizado para identificar o conpetencia
       attr_accessor :competencia
+      attr_accessor :produto_segmento_valor_efetivo
 
       # Codigo do banco emissor (3 dígitos sempre)
       #
@@ -112,7 +117,7 @@ module Brcobranca
       # 02 – 02 |   1  | Identificação do Segmento: Constante "1" - Prefeituras;
       # 03 – 03 |   1  | Identificador de Valor Efetivo ou Referência: Constante "6" - Valor a ser cobrado 'efetivamente' em reais com dígito verificador calculado pelo módulo 10 na quarta posição do Código de Barras e valor com 11 posições (versão 2 e posteriores) sem qualquer alteração;
       def codigo_barras_primeira_parte
-        "817"
+        produto_segmento_valor_efetivo        
       end
 
       # Codigo da segunta parte do boleto

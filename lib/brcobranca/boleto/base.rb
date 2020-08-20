@@ -143,12 +143,12 @@ module Brcobranca
 
       # @abstract Deverá ser sobreescrito para cada banco.
       def nosso_numero_boleto
-        fail Brcobranca::NaoImplementado.new('Sobreescreva este método na classe referente ao banco que você esta criandoA')
+        fail Brcobranca::NaoImplementado.new('Sobreescreva este método na classe referente ao banco que você esta criando')
       end
 
       # @abstract Deverá ser sobreescrito para cada banco.
       def agencia_conta_boleto
-        fail Brcobranca::NaoImplementado.new('Sobreescreva este método na classe referente ao banco que você esta criandoB')
+        fail Brcobranca::NaoImplementado.new('Sobreescreva este método na classe referente ao banco que você esta criando')
       end
 
       # Valor total do documento: <b>quantidate * valor</b>
@@ -204,7 +204,7 @@ module Brcobranca
       #
       # @abstract Deverá ser sobreescrito para cada banco.
       def codigo_barras_segunda_parte
-        fail Brcobranca::NaoImplementado.new('Sobreescreva este método na classe referente ao banco que você esta criandoC')
+        fail Brcobranca::NaoImplementado.new('Sobreescreva este método na classe referente ao banco que você esta criando')
       end
 
       private
