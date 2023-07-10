@@ -12,6 +12,12 @@ module Brcobranca
       somente_numeros.gsub(/^(.{3})(.{3})(.{3})(.{2})$/, '\1.\2.\3-\4')
     end
 
+    #Oculta os caracteres do meio do cpf 
+    # "12345678901".to_br_cpf_obfuscated => 123.***.***-01
+    def to_br_cpf_obfuscated
+      self.to_s.gsub(/^(.{3})(.{3})(.{3})(.{2})$/,'\1.***.***-\4')
+    end
+
     # Formata como CEP
     #
     # @return [String]
@@ -39,10 +45,20 @@ module Brcobranca
     #  "85253100".formata_documento #=> "85253-100"
     #  "12345678901".formata_documento #=> 123.456.789-01
     #  "12345".formata_documento #=> 12345
-    def formata_documento
+    def formata_documento_raw
       case somente_numeros.size
       when 8 then to_br_cep
       when 11 then to_br_cpf
+      when 14 then to_br_cnpj
+      else
+        self
+      end
+    end
+
+    def formata_documento
+      case somente_numeros.size
+      when 8 then to_br_cep
+      when 11 then to_br_cpf_obfuscated
       when 14 then to_br_cnpj
       else
         self
