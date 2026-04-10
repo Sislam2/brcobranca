@@ -28,7 +28,7 @@ module Brcobranca
     # @example
     #  "12345678000901".to_br_cnpj #=> 12.345.678/0009-01
     def to_br_cnpj
-      somente_numeros.gsub(/^(.{2})(.{3})(.{3})(.{4})(.{2})$/, '\1.\2.\3/\4-\5')
+      self.gsub(/^(.{2})(.{3})(.{3})(.{4})(.{2})$/, '\1.\2.\3/\4-\5')
     end
 
     # Gera formatação automática do documento baseado no tamanho do campo.
@@ -40,7 +40,7 @@ module Brcobranca
     #  "12345678901".formata_documento #=> 123.456.789-01
     #  "12345".formata_documento #=> 12345
     def formata_documento
-      case somente_numeros.size
+      case self.size
       when 8 then to_br_cep
       when 11 then to_br_cpf
       when 14 then to_br_cnpj
